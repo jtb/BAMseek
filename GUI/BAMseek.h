@@ -46,4 +46,6 @@ class BAMseek : public QMainWindow
   std::auto_ptr<PageReader> pr;
 };
 
+std::string prettyPrintBaseQual(const std::string & bases, const std::string & quals);
+
 #endif

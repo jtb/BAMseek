@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <sstream>
 
 #include <QApplication>
 #include <QVBoxLayout>
@@ -63,7 +64,10 @@ bool BAMseek::jumpToPage(int page_no){
       QTableWidgetItem * item = new QTableWidgetItem(tr(fields.at(i).c_str()));
       //item->setForeground(Qt::red);
       //item->setForeground(QColor::fromRgbF(0,1,0,1));
+      if(i==9 && fields.size() > 9 && fields.at(10).size() == fields.at(9).size()){
+	item->setToolTip(prettyPrintBaseQual(fields.at(9), fields.at(10)).c_str());
       //item->setToolTip(tr("<font color=\"blue\">This is a</font> <b>tool</b> tip"));
+      }
       tableview->setItem(row, i, item);
     }
     row++;
@@ -219,3 +223,28 @@ void BAMseek::about(){
 			"<p><b>BAMseek</b> allows you to open and explore " \
                         "BAM and SAM files, no matter how big they might be.</p>"));
 }
+
+std::string prettyPrintBaseQual(const std::string & bases, const std::string & quals){
+  if(bases == "*" || bases.size() != quals.size()) return bases;
+
+  
+  std::ostringstream hexcolor;
+  for(size_t i = 0; i < bases.size(); i++){
+    hexcolor << "<font color=\"#";
+
+    int c = quals.at(i) - 33;
+    if(c < 0) c = 0;
+    if(c > 40) c = 40; //0 to 40
+    int color = 255.0*c/40;
+    hexcolor << std::ios_base::hex << color << color;
+    hexcolor << "FF";
+
+    hexcolor << "\">";
+    hexcolor << bases.at(i) << "</font>";
+    
+  }
+
+  return hexcolor.str();
+  
+}
+
