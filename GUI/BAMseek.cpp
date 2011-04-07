@@ -11,7 +11,6 @@
 #include <QTableWidgetItem>
 
 #include "BAMseek.h"
-#include "parse/auto_detect.h"
 
 bool BAMseek::loadFile(const std::string & filename){
   QProgressDialog progress("Indexing file.", "Cancel file load.", 0, 100, this);

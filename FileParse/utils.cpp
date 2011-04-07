@@ -29,7 +29,7 @@ bool isBAM(const string & filename){
 
 bool isSAM(const string & filename){
   ifstream filein(filename.c_str());
-  if(!filein.is_open) return false;
+  if(!filein.is_open()) return false;
 
   string line;
   while(getline(filein, line)){
