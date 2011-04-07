@@ -1,6 +1,5 @@
 #include <string>
 #include <vector>
-#include <sstream>
 
 #include <QApplication>
 #include <QVBoxLayout>
@@ -228,23 +227,21 @@ std::string prettyPrintBaseQual(const std::string & bases, const std::string & q
   if(bases == "*" || bases.size() != quals.size()) return bases;
 
   
-  std::ostringstream hexcolor;
+  std::string hexcolor = "";
   for(size_t i = 0; i < bases.size(); i++){
-    hexcolor << "<font color=\"#";
+    hexcolor += "<font size=\"5\" color=\"";
 
     int c = quals.at(i) - 33;
-    if(c < 0) c = 0;
-    if(c > 40) c = 40; //0 to 40
-    int color = 255.0*c/40;
-    hexcolor << std::ios_base::hex << color << color;
-    hexcolor << "FF";
-
-    hexcolor << "\">";
-    hexcolor << bases.at(i) << "</font>";
+    if(c < 20) hexcolor += "#E9CFEC"; 
+    else hexcolor += "#571B7e";
+    
+    hexcolor += "\">";
+    hexcolor += bases.at(i);
+    hexcolor += "</font>";
     
   }
 
-  return hexcolor.str();
+  return hexcolor;
   
 }
 
