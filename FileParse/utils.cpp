@@ -24,6 +24,7 @@ bool isBAM(const string & filename){
   char buffer[5];
   buffer[4] = 0;
   if(bgzf.Read(buffer, 4) == -1) return false;
+  bgzf.Close();
   return !strcmp(buffer, "BAM\1");
 }
 
@@ -37,12 +38,34 @@ bool isSAM(const string & filename){
     if(tag != "@HD" && tag != "@SQ" && tag != "@RG" && tag != "@PG" && tag != "@CO") break;
   }
 
-  if(!filein.good()) return false;
+  if(!filein.good()){
+    filein.close();
+    return false;
+  }
 
+  filein.close();
   vector<string> fields;
   Tokenize(line, fields, "\t");
-  if(fields.size() < 11) return false;
-  if(fields.at(10) == "*" || fields.at(10).size() == fields.at(9).size()) return true;
-
+  if(fields.size() < 11){
+    return false;
+  }
+  if(fields.at(10) == "*" || fields.at(10).size() == fields.at(9).size()){
+    return true;
+  }
   return false;
+}
+
+int64_t getFileSize(const std::string & filename){
+  ifstream filein(filename.c_str());
+  int64_t begin = filein.tellg();
+  filein.seekg(0, ios::end);
+  int64_t end = filein.tellg();
+  filein.close();
+  return (end-begin);
+}
+
+std::string getFileSizeString(const std::string & filename){
+  //int64_t siz = getFileSize(filename);
+  return "";
+  
 }

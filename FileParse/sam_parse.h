@@ -14,12 +14,14 @@ class SamParse: public Parse {
   bool getNextRecordIndex(int64_t & offset);
   bool getNextRecord(std::vector<std::string> & fields);
 
-  double getProgress() const {
-    return 0;
+  double getProgress() {
+    return (double)filein.tellg()/(double)filesize;
   }
   
  private:
   void parseHeader();
+
+  int64_t filesize;
   std::ifstream filein;
 };
 

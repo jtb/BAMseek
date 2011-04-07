@@ -62,10 +62,8 @@ bool BAMseek::jumpToPage(int page_no){
     for(size_t i = 0; i < fields.size(); i++){
       QTableWidgetItem * item = new QTableWidgetItem(tr(fields.at(i).c_str()));
       //item->setForeground(Qt::red);
-      item->setForeground(QColor::fromRgbF(0,1,0,1));
-      //item->setWhatsThis(tr("What is this"));
-      item->setToolTip(tr("<font color=\"blue\">This is a</font> <b>tool</b> tip"));
-      //model->setItem(row, i, item);
+      //item->setForeground(QColor::fromRgbF(0,1,0,1));
+      //item->setToolTip(tr("<font color=\"blue\">This is a</font> <b>tool</b> tip"));
       tableview->setItem(row, i, item);
     }
     row++;
@@ -109,9 +107,7 @@ void BAMseek::setupTable(){
   tableview->setColumnCount(11);
   tableview->setEditTriggers(QAbstractItemView::NoEditTriggers);
   //QObject::connect(tableview, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(openFile()));
-  //model = new QStandardItemModel();
-  //tableview->setModel(model);
-
+  
   setupLabels(0);
 }
 
@@ -216,7 +212,10 @@ void BAMseek::dockHeader(){
 void BAMseek::about(){
   
   QMessageBox::about(this, tr("About BAMseek"),
-                     tr("<img src=\":/images/logo.png\"><center>BAMseek Version 1.0</center>" \
+                     tr("<img src=\":/Images/logo.png\"><center>BAMseek Version 1.0</center>" \
+			"<center>Written by Justin T. Brown</center>" \
+			"<center>GPL License</center>" \
+			"<center>Copyright 2011, All Rights Reserved</center>" \
 			"<p><b>BAMseek</b> allows you to open and explore " \
                         "BAM and SAM files, no matter how big they might be.</p>"));
 }

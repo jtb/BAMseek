@@ -23,6 +23,7 @@ void SamParse::parseHeader(){
 }
 
 SamParse::SamParse(const string & filename) : Parse(filename), filein(filename.c_str()) {
+  filesize = getFileSize(filename);
   if(filein.is_open()){
     parseHeader();
   }

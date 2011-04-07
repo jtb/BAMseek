@@ -16,8 +16,8 @@ class BamParse : public Parse {
   bool getNextRecordIndex(int64_t & offset);
   bool getNextRecord(std::vector<std::string> & fields);
 
-  double getProgress() const {
-    return (double)bgzf.BlockAddress/(double)(100.0);
+  double getProgress() {
+    return (double)bgzf.BlockAddress/(double)filesize;
   }
 
  private:
@@ -25,6 +25,7 @@ class BamParse : public Parse {
   void parseHeader();
   void getReferences();
 
+  int64_t filesize;
   BamTools::BgzfData bgzf;
   std::map<int, std::string> refmap;
   std::vector<std::string> sequences;

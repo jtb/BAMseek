@@ -15,7 +15,7 @@ class Parse {
   virtual bool getNextRecordIndex(int64_t & offset) = 0;
   virtual bool getNextRecord(std::vector<std::string> & fields) = 0;
 
-  virtual double getProgress() const = 0;
+  virtual double getProgress() = 0;
 
   virtual std::string getHeader() const { return header; }
   virtual std::string getFilename() const { return filename; }

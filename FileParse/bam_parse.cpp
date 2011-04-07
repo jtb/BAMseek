@@ -1,6 +1,7 @@
 #include <sstream>
 #include "bam_parse.h"
 #include "BGZF.h"
+#include "utils.h"
 #include <assert.h>
 
 using namespace std;
@@ -205,6 +206,7 @@ void BamParse::getReferences(){
 }
 
 BamParse::BamParse(const string & filename) : Parse(filename) {
+  filesize = getFileSize(filename);
   bgzf.Open(filename, "rb");
 
   if(bgzf.IsOpen){
