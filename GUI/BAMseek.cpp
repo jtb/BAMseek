@@ -67,6 +67,9 @@ bool BAMseek::jumpToPage(int page_no){
 	item->setToolTip(prettyPrintBaseQual(fields.at(9), fields.at(10)).c_str());
       //item->setToolTip(tr("<font color=\"blue\">This is a</font> <b>tool</b> tip"));
       }
+      if(i==1){
+	item->setToolTip(prettyPrintFlag(atoi(fields.at(i).c_str())).c_str());
+      }
       tableview->setItem(row, i, item);
     }
     row++;
@@ -244,4 +247,64 @@ std::string prettyPrintBaseQual(const std::string & bases, const std::string & q
   return hexcolor;
   
 }
+
+std::string prettyPrintFlag(int flag){
+  if(flag<0) return "";
+  bool unmapped = false;
+  bool unmappedmate = false;
+  std::string answer = "";
+  if(flag%2){
+    answer+="Read is paired\n";
+  }
+  flag = (flag >> 1);
+  if(flag%2){
+    answer+="Read mapped in proper pair.\n";
+  }
+  flag = (flag >> 1);
+  if(flag%2){
+    answer+="Read is unmapped.\n";
+    unmapped = true;
+  }
+  flag = (flag >> 1);
+  if(flag%2){
+    answer+="Mate is unmapped.\n";
+    unmappedmate = true;
+  }
+  flag = (flag >> 1);
+  if(flag%2){
+    answer+="Read is on reverse strand\n";
+  }else if(!unmapped){
+    answer+="Read is on forward strand\n";
+  }
+  flag = (flag >> 1);
+  if(flag%2){
+    answer+="Mate is on reverse strand\n";
+  }else if(!unmappedmate){
+    answer+="Mate is on forward strand\n";
+  }
+  flag = (flag >> 1);
+  if(flag%2){
+    answer+="Read is first in template.\n";
+  }
+  flag = (flag >> 1);
+  if(flag%2){
+    answer+="Read is last in template.\n";
+  }
+  flag = (flag >> 1);
+  if(flag%2){
+    answer+="Read is not primary alignment\n";
+  }
+  flag = (flag >> 1);
+  if(flag%2){
+    answer+="Read fails platform/vendor quality checks.\n";
+  }
+  flag = (flag >> 1);
+  if(flag%2){
+    answer+="Read is PCR or optical duplicate\n";
+  }
+
+    
+  return answer;
+}
+
 
