@@ -11,7 +11,7 @@
 #include <QSlider>
 #include <QSpinBox>
 
-#include "page_reader.h"
+#include "../FileParse/page_reader.h"
 
 class BAMseek : public QMainWindow
 {

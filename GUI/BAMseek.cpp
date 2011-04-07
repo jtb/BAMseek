@@ -55,7 +55,7 @@ bool BAMseek::jumpToPage(int page_no){
   int col_no = 0;
   
   while(pr->getNextRecord(fields)){
-    if(fields.size() > col_no){
+    if((int)fields.size() > col_no){
       col_no = fields.size();
       tableview->setColumnCount(col_no);
     }
