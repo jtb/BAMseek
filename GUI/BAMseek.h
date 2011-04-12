@@ -19,10 +19,12 @@ class BAMseek : public QMainWindow
 
     public:
   BAMseek(QWidget * parent = 0);
+  
+  public slots:
+  void openFile(const QString &path = QString());
 
   private slots:
   void about();
-  void openFile(const QString &path = QString());
   void dockHeader();
   bool jumpToPage(int page_no);
     
