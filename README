@@ -9,4 +9,4 @@ Installation on Mac
 6. make
 
 cp Images/BAM.icns Images/SAM.icns BAMseek.app/Contents/Resources/
-
+macdeployqt BAMseek.app -dmg

@@ -125,8 +125,8 @@ void BAMseek::setupLabels(int col_no){
   labels << "Position";
   labels << "Map Quality";
   labels << "Cigar";
-  labels << "Next Reference";
-  labels << "Next Position";
+  labels << "Mate Reference";
+  labels << "Mate Position";
   labels << "Template Length";
   labels << "Sequence";
   labels << "Quality";
@@ -252,9 +252,11 @@ std::string prettyPrintFlag(int flag){
   if(flag<0) return "";
   bool unmapped = false;
   bool unmappedmate = false;
+  bool paired = false;
   std::string answer = "";
   if(flag%2){
     answer+="Read is paired\n";
+    paired = true;
   }
   flag = (flag >> 1);
   if(flag%2){
@@ -279,7 +281,7 @@ std::string prettyPrintFlag(int flag){
   flag = (flag >> 1);
   if(flag%2){
     answer+="Mate is on reverse strand\n";
-  }else if(!unmappedmate){
+  }else if(paired && !unmappedmate){
     answer+="Mate is on forward strand\n";
   }
   flag = (flag >> 1);
