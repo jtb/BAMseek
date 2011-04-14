@@ -8,4 +8,5 @@ Installation on Mac
 5. qmake -spec macx-g++
 6. make
 
+cp Images/BAM.icns Images/SAM.icns BAMseek.app/Contents/Resources/
 
