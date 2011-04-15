@@ -218,7 +218,7 @@ void BAMseek::dockHeader(){
 void BAMseek::about(){
   
   QMessageBox::about(this, tr("About BAMseek"),
-                     tr("<img src=\":/Images/logo.png\"><center>BAMseek Version 0.1.0</center>" \
+                     tr("<img src=\":/Images/logo.png\"><center>BAMseek Version 0.1.1</center>" \
 			"<center>Written by Justin T. Brown</center>" \
 			"<center>GPL License</center>" \
 			"<center>Copyright 2011, All Rights Reserved</center>" \

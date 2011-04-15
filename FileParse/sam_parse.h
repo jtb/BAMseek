@@ -23,6 +23,11 @@ class SamParse: public Parse {
 
   int64_t filesize;
   std::ifstream filein;
+
+  std::vector<char> buffer;
+  int buffer_size;
+  int buffer_pos;
+  int64_t file_pos;
 };
 
 #endif

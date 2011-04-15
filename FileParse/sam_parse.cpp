@@ -22,10 +22,11 @@ void SamParse::parseHeader(){
   }
 }
 
-SamParse::SamParse(const string & filename) : Parse(filename), filein(filename.c_str()) {
+SamParse::SamParse(const string & filename) : Parse(filename), filein(filename.c_str()), buffer(0), buffer_size(0), buffer_pos(0), file_pos(0) {
   filesize = getFileSize(filename);
   if(filein.is_open()){
     parseHeader();
+    file_pos = filein.tellg();
   }
 }
 
@@ -36,11 +37,25 @@ bool SamParse::seek(int64_t offset){
 }
 
 bool SamParse::getNextRecordIndex(int64_t & offset){
-  offset = filein.tellg();
-  string line;
-  if(getline(filein, line)){
-    return true;
+  if(!buffer.size()) buffer.resize(1024*1024);
+  
+  offset = file_pos + buffer_pos;
+
+  while(1){
+    if(buffer_size == 0 || buffer_pos >= buffer_size){
+      file_pos = filein.tellg();
+      filein.read( &buffer[0], buffer.size());
+      buffer_size = filein.gcount();
+      buffer_pos = 0;
+    }
+    if(!buffer_size) return false;
+    if(buffer[buffer_pos] == '\n'){
+      buffer_pos++;
+      return true;
+    }
+    buffer_pos++;
   }
+  
   return false;
 }
 
