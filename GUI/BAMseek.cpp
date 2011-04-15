@@ -112,8 +112,7 @@ void BAMseek::setupTable(){
   tableview->setRowCount(PAGE_SIZE);
   tableview->setColumnCount(11);
   tableview->setEditTriggers(QAbstractItemView::NoEditTriggers);
-  //QObject::connect(tableview, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(openFile()));
-  
+    
   setupLabels(0);
 }
 
@@ -158,11 +157,14 @@ void BAMseek::setupPager(){
 void BAMseek::setupFileMenu(){
   QMenu *fileMenu = new QMenu(tr("&File"), this);
   menuBar()->addMenu(fileMenu);
-      
-  fileMenu->addAction(tr("&Open..."), this, SLOT(openFile()),
-		                        QKeySequence::Open);
   
-  fileMenu->addAction(tr("&Dock/Undock Header"), this, SLOT(dockHeader()));
+  QAction *openAction = fileMenu->addAction(tr("&Open..."));
+  openAction->setShortcuts(QKeySequence::Open);
+  connect(openAction, SIGNAL(triggered()), this, SLOT(openFile()));
+    
+  QAction *dockAction = fileMenu->addAction(tr("&Dock/Undock Header"));
+  dockAction->setShortcuts(QKeySequence::AddTab);
+  connect(dockAction, SIGNAL(triggered()), this, SLOT(dockHeader()));
 }
 
 void BAMseek::setupHelpMenu(){
