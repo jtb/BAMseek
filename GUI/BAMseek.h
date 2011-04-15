@@ -51,5 +51,6 @@ class BAMseek : public QMainWindow
 
 std::string prettyPrintBaseQual(const std::string & bases, const std::string & quals);
 std::string prettyPrintFlag(int flag);
+std::string prettyPrintCigar(const std::string & cigar);
 
 #endif

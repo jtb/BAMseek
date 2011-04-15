@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <vector>
 
 #include <QApplication>
@@ -71,6 +72,9 @@ bool BAMseek::jumpToPage(int page_no){
       }
       if(i==1){
 	item->setToolTip(prettyPrintFlag(atoi(fields.at(i).c_str())).c_str());
+      }
+      if(i==5){
+	item->setToolTip(prettyPrintCigar(fields.at(5)).c_str());
       }
       tableview->setItem(row, i, item);
     }
@@ -235,6 +239,59 @@ void BAMseek::about(){
 			"<center>Copyright 2011, All Rights Reserved</center>" \
 			"<p><b>BAMseek</b> allows you to open and explore " \
                         "BAM and SAM files, no matter how big they might be.</p>"));
+}
+
+namespace {
+  int getNum(const std::string & test, int & pos){
+    int ans = 0;
+    while(pos < (int)test.size()){
+      if(isdigit(test[pos])){
+	char num[2] = {test[pos], 0};
+	ans = 10*ans + atoi(num);
+      }else{
+	return ans;
+      }
+      pos++;
+    }
+    return 0;
+  }
+
+  char getVal(const std::string & test, int & pos){
+    return test[pos++];
+  }
+  
+}
+
+std::string prettyPrintCigar(const std::string & cigar){
+  std::stringstream ans;
+  
+  if(cigar == "*"){
+    ans << "No alignment information\n";
+  }else{
+    
+    char val;
+    int pos = 0;
+    while(pos < (int)cigar.size()){
+      ans << getNum(cigar, pos) << " ";
+      
+      switch(val = getVal(cigar, pos)){
+      case 'M' : case 'm' : ans << "Match/Mismatch\n"; break;
+      case 'I' : case 'i' : ans << "Insertion to reference\n"; break;
+      case 'D' : case 'd' : ans << "Deletion from reference\n"; break;
+      case 'N' : case 'n' : ans << "Skipped region from reference\n"; break;
+      case 'S' : case 's' : ans << "Soft clipping (clipped sequence present)\n"; break;
+      case 'H' : case 'h' : ans << "Hard clipping (clipped sequence removed)\n"; break;
+      case 'P' : case 'p' : ans << "Padding (silent deletion from padded reference)\n"; break;
+      case '=' : ans << "Match\n"; break;
+      case 'X' : case 'x' : ans << "Mismatch\n"; break;
+      default : ans << val << "\n"; break;
+      }
+
+    }
+
+  }
+  
+  return ans.str();
 }
 
 std::string prettyPrintBaseQual(const std::string & bases, const std::string & quals){
