@@ -27,6 +27,7 @@ class BAMseek : public QMainWindow
   void about();
   void dockHeader();
   bool jumpToPage(int page_no);
+  void openWebLink();
     
   private:
   void setupFileMenu();

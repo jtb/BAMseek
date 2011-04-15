@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QGroupBox>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include <QTableWidgetItem>
 
@@ -173,6 +175,13 @@ void BAMseek::setupHelpMenu(){
   
   helpMenu->addAction(tr("&About BAMseek"), this, SLOT(about()));
   helpMenu->addAction(tr("About &Qt"), qApp, SLOT(aboutQt()));
+
+  helpMenu->addAction(tr("&Check for updates..."), this, SLOT(openWebLink()));
+}
+
+void BAMseek::openWebLink(){
+  QUrl url("http://code.google.com/p/bamseek/");
+  QDesktopServices::openUrl(url);
 }
 
 void BAMseek::openFile(const QString & path){
