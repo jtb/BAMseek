@@ -10,6 +10,8 @@
 #include <QGroupBox>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QLabel>
+#include <QPixmap>
 
 #include <QTableWidgetItem>
 
@@ -216,7 +218,17 @@ void BAMseek::setupHeader(){
   header->append(tr("BAMseek allows you to scroll through large SAM/BAM alignment files.  Please go to File > Open to get started."));
 
   headerWindow = new QDockWidget(tr("Header"), this);
-  headerWindow->setWidget(header);
+  
+  QWidget * wid = new QWidget;
+  QHBoxLayout * horiz = new QHBoxLayout;
+  QLabel * label = new QLabel;
+  QPixmap pixmap(":/Images/BAMseek.png");
+  label->setPixmap(pixmap);
+  horiz->addWidget(label, 0);
+  horiz->addWidget(header, 1);
+  wid->setLayout(horiz);
+  headerWindow->setWidget(wid);
+  
   headerWindow->setAllowedAreas(Qt::TopDockWidgetArea);
   headerWindow->setFeatures(QDockWidget::DockWidgetVerticalTitleBar | QDockWidget::DockWidgetFloatable);
   addDockWidget(Qt::TopDockWidgetArea, headerWindow);
