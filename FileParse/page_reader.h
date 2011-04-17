@@ -27,13 +27,15 @@ class PageIndexer {
     while(parser->getNextRecordIndex(offset)){
                 
       if(!count){
-	qApp->processEvents();
-	if(progress->wasCanceled()){
-	  invalid = true;
-	  return;
-	}
 	pages.push_back(offset);
 	progress->setValue(100*(parser->getProgress()));
+	
+	qApp->processEvents();
+	if(progress->wasCanceled()){
+	  progress->setValue(100);
+	  invalid = false;
+	  return;
+	}
       }
       count++;
       if(count == PAGE_SIZE) count = 0;
