@@ -1,6 +1,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include "utils.h"
 
 #include <QApplication>
 #include <QVBoxLayout>
@@ -34,8 +35,9 @@ bool BAMseek::loadFile(const std::string & filename){
     header->append(tr(filename.c_str()));
     return false;
   }
-      
-  setWindowTitle(tr(filename.c_str()));
+  
+  std::string title = filename + " (" + getFileSizeString(filename) + ")";
+  setWindowTitle(tr(title.c_str()));
   header->clear();
   header->append(tr(pr->getHeader().c_str()));
     

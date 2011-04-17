@@ -1,6 +1,7 @@
 #include "utils.h"
 
 #include <fstream>
+#include <sstream>
 #include "BGZF.h"
 
 using namespace std;
@@ -55,7 +56,7 @@ bool isSAM(const string & filename){
   return false;
 }
 
-int64_t getFileSize(const std::string & filename){
+int64_t getFileSize(const string & filename){
   ifstream filein(filename.c_str());
   int64_t begin = filein.tellg();
   filein.seekg(0, ios::end);
@@ -64,8 +65,27 @@ int64_t getFileSize(const std::string & filename){
   return (end-begin);
 }
 
-std::string getFileSizeString(const std::string & filename){
-  //int64_t siz = getFileSize(filename);
-  return "";
+string getFileSizeString(const string & filename){
+  double siz = getFileSize(filename);
+  stringstream ans;
+  ans.precision(1);
+  if(siz < 1000){
+    ans << fixed << siz << " Bytes";
+    return ans.str();
+  }
+  siz  = siz/1000.0;
+  if(siz < 1000){
+    ans << fixed << siz << " KiloBytes";
+    return ans.str();
+  }
+  siz  = siz/1000.0;
+  if(siz < 1000){
+    ans << fixed << siz << " MegaBytes";
+    return ans.str();
+  }
+  siz  = siz/1000.0;
+  ans << fixed << siz << " GigaBytes";
+    
+  return ans.str();
   
 }
