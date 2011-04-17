@@ -27,5 +27,5 @@ SOURCES += main.cpp \
            GUI/BAMseek.cpp
 RESOURCES += BAMseek.qrc
 
-RC_FILE = Images/Glasses.icns
+ICON = Images/Glasses.icns
 QMAKE_INFO_PLIST    = Info.plist
