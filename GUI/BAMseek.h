@@ -27,6 +27,7 @@ class BAMseek : public QMainWindow
   private slots:
   void about();
   void dockHeader();
+  void copyCells();
   bool jumpToPage(int page_no);
   void openWebLink();
     

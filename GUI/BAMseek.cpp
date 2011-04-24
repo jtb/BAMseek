@@ -1,9 +1,11 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include "utils.h"
 
 #include <QApplication>
+#include <QClipboard>
 #include <QVBoxLayout>
 #include <QMenuBar>
 #include <QMessageBox>
@@ -175,6 +177,10 @@ void BAMseek::setupFileMenu(){
   QAction *dockAction = fileMenu->addAction(tr("&Dock/Undock Header"));
   dockAction->setShortcuts(QKeySequence::AddTab);
   connect(dockAction, SIGNAL(triggered()), this, SLOT(dockHeader()));
+
+  QAction *copyAction = fileMenu->addAction(tr("&Copy Selected Cells"));
+  copyAction->setShortcuts(QKeySequence::Copy);
+  connect(copyAction, SIGNAL(triggered()), this, SLOT(copyCells()));
 }
 
 void BAMseek::setupHelpMenu(){
@@ -242,6 +248,37 @@ void BAMseek::dockHeader(){
   }else{
     headerWindow->setFloating(true);
   }
+}
+
+void BAMseek::copyCells(){
+  QAbstractItemModel * model = tableview->model();
+  QItemSelectionModel * selection = tableview->selectionModel();
+  QModelIndexList indexes = selection->selectedIndexes();
+  std::sort(indexes.begin(), indexes.end());
+
+  QString selected_text;
+  int row = 0;
+  if(!indexes.empty()){
+    row = indexes.first().row();
+    selected_text.append(model->data(indexes.first()).toString());
+    indexes.removeFirst();
+  }
+  QModelIndex current;
+  foreach(current, indexes){
+    QVariant data = model->data(current);
+    QString text = data.toString();
+    
+    if(current.row() != row){
+      selected_text.append('\n');
+    }else{
+      selected_text.append('\t');
+    }
+    row = current.row();
+
+    selected_text.append(text);
+  }
+
+  QApplication::clipboard()->setText(selected_text);
 }
 
 void BAMseek::about(){
