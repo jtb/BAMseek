@@ -32,7 +32,7 @@ BgzfData::BgzfData(void)
     try {
         CompressedBlock   = new char[CompressedBlockSize];
         UncompressedBlock = new char[UncompressedBlockSize];
-    } catch( std::bad_alloc& ba ) {
+    } catch( std::bad_alloc& ) {
         printf("ERROR: Unable to allocate memory for our BGZF object.\n");
         exit(1);
     }

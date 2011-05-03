@@ -5,8 +5,8 @@
 TEMPLATE = app
 TARGET = 
 DEPENDPATH += . FileParse GUI
-INCLUDEPATH += . GUI FileParse
-LIBS += -lz
+INCLUDEPATH += . GUI FileParse zlibinclude
+# LIBS += "C:\Program Files (x86)\GnuWin32\lib\zlib.lib"
 
 # Input
 HEADERS += QAppBam.h \
@@ -16,7 +16,8 @@ HEADERS += QAppBam.h \
            FileParse/parser_base.h \
            FileParse/sam_parse.h \
            FileParse/utils.h \
-           GUI/BAMseek.h
+           GUI/BAMseek.h \
+    FileParse/define.h
 SOURCES += main.cpp \
            FileParse/bam_parse.cpp \
            FileParse/BGZF.cpp \

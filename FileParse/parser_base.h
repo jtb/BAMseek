@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "define.h"
 
 class Parse {
 
